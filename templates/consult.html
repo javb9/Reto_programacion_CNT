@@ -1,0 +1,161 @@
+{% extends 'plantilla.html' %}
+{% block titulo %} Consulta {% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:10px;">
+    <div class="card" style="padding: 10px;">
+        <form onsubmit="send_consult(); return false" method="post" class="row justify-content-center col-lg-12"
+            id="form_consult">
+            <div class="row">
+                <div class="mb-3 col-lg-3 text-center">
+                    <label class="form-label text-center">No. Documento</label>
+                    <input required type="text" class="form-control" id="number_document_pro"
+                        name="number_document_pro">
+                </div>
+                <div class="mb-3 col-lg-4 text-center">
+                    <label class="form-label text-center">Nombre Profesional:</label>
+                    <input disabled type="text" class="form-control" id="name_pro" name="name_pro">
+                </div>
+                <div class="mb-3 col-lg-3 offset-lg-2 text-center">
+                    <label class="form-label">Fecha Consulta:</label>
+                    <input type="date" class="form-control" id="date_consult" name="date_consult">
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-lg-3 text-center">
+                    <label class="form-label text-center">Numero documento Paciente:</label>
+                    <input required type="number" class="form-control" id="number_document_p" name="number_document_p">
+                </div>
+                <div class="mb-3 col-lg-3 text-center">
+                    <label class="form-label text-center">Tipo documento:</label>
+                    <select disabled class="form-select" id="type_of_document_p" name="type_of_document_p">
+                        <option selected name="type_of_document_p"></option>
+                        <option value="C.C">C.C</option>
+                        <option value="T.I">T.I</option>
+
+                    </select>
+                </div>
+                <div class="mb-3 col-lg-3 text-center">
+                    <label class="form-label text-center">Nombre Paciente:</label>
+                    <input disabled type="text" class="form-control" id="name_p" name="name_p">
+                </div>
+                <div class="mb-3 col-lg-3 text-center">
+                    <label class="form-label">Fecha nacimiento:</label>
+                    <input disabled type="text" class="form-control" id="date" name="date">
+                </div>
+            </div>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="mb-3 col-lg-9 text-center">
+            <button type="button" id="btn_consult_history" class="btn btn-info col" data-bs-toggle="modal"
+                data-bs-target="#modal">Historias Clinicas</button>
+
+            <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal-title">Historias clinica</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+                            <main id="DOMhistoria">
+
+                            </main>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input id="btn_consult" type="submit" class="btn btn-success" value="Enviar">
+
+            <button type="button" id="btn_new_pacient_back" class="btn btn-secondary">Volver</button>
+
+            <button type="reset" id="reset" class="btn btn-secondary">Restaurar</button>
+
+            <button type="button" id="btn_paciente_mayor_riesgo" class="btn btn-info" data-bs-toggle="modal"
+                data-bs-target="#modal_2">Paciente de mayor riesgo</button>
+
+            <div class="modal fade" id="modal_2" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal-title">Paciente de mayor riesgo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <main id="DOMmayor_riesgo">
+
+                            </main>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 col-lg-4 text-center" id="children" style="display:none;">
+            <label class="form-label">Relacion Peso-estatura:</label>
+            <select class="form-select" id="peso_estatura" name="peso_estatura">
+                <option selected name="peso_estatura"></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        <div class="mb-3 col-lg-4 text-center" id="young" style="display:none;">
+            <label class="form-label">fumador:</label>
+            <select class="form-select" id="fumador" name="fumador" type="Booleano" value="N0">
+                <option selected></option>
+                <option value="SI">SI</option>
+                <option value="NO">NO</option>
+            </select>
+        </div>
+        <div class="mb-3 col-lg-4 text-center" id="young_yes_smoke" style="display:none;">
+            <label class="form-label">años de fumador:</label>
+            <input type="text" class="form-control" id="years_smoker" name="years_smoker" type="number">
+        </div>
+        <div class="mb-3 col-lg-4 text-center" id="old" style="display: none;">
+            <label class="form-label">dieta:</label>
+            <select class="form-select" id="dieta" name="dieta">
+                <option selected name="dieta"></option>
+                <option value="si">si</option>
+                <option value="no">no</option>
+            </select>
+        </div>
+        <div class="mb-3 col-lg-4 text-center" id="old_yes_diet" style="display:none;">
+            <label class="form-label">Tipo de dieta:</label>
+            <select class="form-select" id="type_dieta" name="type_dieta">
+                <option selected name="type_dieta" value="3"></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+            <span class="opacity-50">1 -> bajar de peso</span><br>
+            <span class="opacity-50">2 -> subir de peso</span>
+        </div>
+        <div class="mb-3 col-lg-3 text-center" style="display: none;">
+            <input type="text" class="form-control" id="prioridad" name="prioridad">
+        </div>
+        <div class="mb-3 col-lg-3 text-center" style="display: none;">
+            <input type="text" class="form-control" id="riesgo" name="riesgo">
+        </div>
+        <div class="mb-3 col-lg-3 text-center" style="display: none;">
+            <input type="text" class="form-control" id="type_consult" name="type_consult">
+        </div>
+
+
+        </form>
+
+    </div>
+</div>
+<div class="alert alert-danger text-center mb-2" id="alert" style="display:none; margin-top:10px;">
+
+</div>
+
+{% endblock %}
